@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="wrapper">
+        <input id="password" type="text" disabled>
+        <button id="copy">Copy</button>
+
+        <div class="criteria">
+            <div>
+                <label for="length">Password Length</label>
+                <input id="length" type="number" min="5" value="5">
+            </div>
+            <div>
+                <label for="uppercase">Include Uppercase Letter</label>
+                <input id="uppercase" type="checkbox" >
+            </div>
+            <div>
+                <label for="lowercase">Include Lower Letter</label>
+                <input id="lowercase" type="checkbox" >
+            </div>
+            <div>
+                <label for="numbers">Include Numbers</label>
+                <input id="numbers" type="checkbox" >
+            </div>
+            <div>
+                <label for="symbols">Include Symbols</label>
+                <input id="symbols" type="checkbox" >
+            </div>
+            
+            
+        </div>
+        <button id="generate">Generate Password</button>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
