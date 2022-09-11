@@ -1,6 +1,7 @@
-let password = document.querySelector("#password");
+let passwordInp = document.querySelector("#password");
 let copy = document.querySelector("#copy");
 let generate = document.querySelector("#generate");
+let shuffleBtn = document.querySelector("#shuffle")
 
 let length = document.querySelector("#length");
 let uppercase = document.querySelector("#uppercase");
@@ -9,72 +10,82 @@ let numbers = document.querySelector("#numbers");
 let symbols = document.querySelector("#symbols");
 
 let passwordLength = length.value;
-// let isUpperCase;
-// let isLowerCase;
-// let isNum;
-// let isSymbol;
 
-// length.addEventListener("input", function () {
-//   passwordLength = this.value;
-// });
-// uppercase.addEventListener("change", function () {
-//   isUpperCase = this.checked;
-// });
-// lowercase.addEventListener("change", function () {
-//   isLowerCase = this.checked;
-// });
-// numbers.addEventListener("change", function () {
-//   isNum = this.checked;
-// });
-// symbols.addEventListener("change", function () {
-//   isSymbol = this.checked;
-// });
-
-
-
-function customPassword(isUpperCase, isLowerCase, isNumber, isSymbol, password, arrayLength) {
-  let length = arrayLength;
-  if (isUpperCase && length !== 0) {
-    length-=1;
-    let upperCaseCharacter = Math.floor(Math.random() * (90 - 65 + 1) + 65);
-    password.push(upperCaseCharacter);
-    console.log(password);
-  }
-  if (isLowerCase  && length !== 0) {
-    length-=1;
-    let lowerCaseCharacter = Math.floor(Math.random() * (122 - 97 + 1) + 97);
-    password.push(lowerCaseCharacter);
-  }
-  if (isNumber  && length !== 0) {
-    length-=1;
-    let numberCharacter = Math.floor(Math.random() * (57 - 48 + 1) + 48);
-    password.push(numberCharacter);
-  }
-  if (isSymbol  && length !== 0) {
-    length-=1;
-    let symbolCharacter = Math.floor(Math.random() * (47 - 33 + 1) + 33);
-    password.push(symbolCharacter);
-  }
-  if(password.length == arrayLength){
-    console.log("here");
-    return password;
-  }else if(arrayLength > password.length){
-    customPassword(isUpperCase, isLowerCase, isNumber, isSymbol, password, (arrayLength - password.length));
-  }
-}
-
+length.addEventListener("input", function () {
+  passwordLength = this.value;
+});
 
 generate.addEventListener("click", function () {
-    let password = [];
-  
-    let customPassword1 = customPassword(
-      uppercase.checked,
-      lowercase.checked,
-      numbers.checked,
-      symbols.checked,
-      password,
-      passwordLength
-    );
-  
-    console.log(customPassword1);
+  let password = [];
+  customPassword(
+    uppercase.checked,
+    lowercase.checked,
+    numbers.checked,
+    symbols.checked,
+    password,
+    passwordLength
+  );
+  passwordInp.value = password.join("");
+  console.log(password.join(""));
+});
+
+copy.addEventListener("click", function () {
+  navigator.clipboard.writeText(passwordInp.value).then(() => {
+    alert("Text copied to clipboard");
   });
+});
+
+shuffleBtn.addEventListener("click", function(){
+  let result = shuffleArray(passwordInp.value.split(''));
+  passwordInp.value = result.join("");
+})
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array
+}
+
+function customPassword(
+  isUpperCase,
+  isLowerCase,
+  isNumber,
+  isSymbol,
+  password,
+  length
+) {
+  if (isUpperCase && length > password.length) {
+    let upperCaseCharacter = Math.floor(Math.random() * (90 - 65 + 1) + 65);
+    let letter = String.fromCharCode(upperCaseCharacter);
+    password.push(letter);
+  }
+  if (isLowerCase && length > password.length) {
+    let lowerCaseCharacter = Math.floor(Math.random() * (122 - 97 + 1) + 97);
+    let letter = String.fromCharCode(lowerCaseCharacter);
+    password.push(letter);
+  }
+  if (isNumber && length > password.length) {
+    let numberCharacter = Math.floor(Math.random() * (57 - 48 + 1) + 48);
+    let letter = String.fromCharCode(numberCharacter);
+    password.push(letter);
+  }
+  if (isSymbol && length > password.length) {
+    let symbolCharacter = Math.floor(Math.random() * (47 - 33 + 1) + 33);
+    let letter = String.fromCharCode(symbolCharacter);
+    password.push(letter);
+  }
+  if (password.length === length) {
+    return password;
+  } else if (length > password.length) {
+    customPassword(
+      isUpperCase,
+      isLowerCase,
+      isNumber,
+      isSymbol,
+      password,
+      length
+    );
+  }
+}
